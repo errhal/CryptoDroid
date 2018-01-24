@@ -1,13 +1,18 @@
 import React from 'react';
 import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { APIKeyManagerScreen } from './screens/APIKeyManagerScreen.js'
+import { StackNavigator, TabNavigator } from 'react-navigation';
+import { APIKeyManagerScreen } from './screens/APIKeyManagerScreen.js';
+import MarketScreen from './screens/MarketScreen.js';
 
 
 class ExchangeChooseScreen extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  static navigationOptions = {
+    tabBarLabel: 'Account',
+  };
 
   render() {
     return (
@@ -19,7 +24,7 @@ class ExchangeChooseScreen extends React.Component {
   }
 }
 
-const ModalStack = StackNavigator({
+const APIKeyManagerStack = StackNavigator({
   ExchangeChooseScreen: {
     path: 'ExchangeChooseScreen',
     screen: ExchangeChooseScreen,
@@ -30,7 +35,25 @@ const ModalStack = StackNavigator({
   }
 });
 
-export default ModalStack;
+const TabNav = TabNavigator({
+  APIKeyManagerStack: {
+    screen: APIKeyManagerStack,
+    navigationOptions: {
+      title: 'Binance QR',
+    },
+  },
+  MarketScreen: {
+    screen: MarketScreen,
+  },
+}, {
+  tabBarPosition: 'top',
+  animationEnabled: true,
+  tabBarOptions: {
+    activeTintColor: '#e91e63',
+  },
+});
+
+export default TabNav;
 
 const styles = StyleSheet.create({
   container: {

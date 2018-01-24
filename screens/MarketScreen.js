@@ -1,16 +1,20 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export class APIKeyManagerScreen extends React.Component {
+export default class MarketScreen extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  static navigationOptions = {
+    tabBarLabel: 'Market',
+  };
 
   render() {
     return (
       <View>
         <Text>
-          Type you API key for Binance:
+          Markets
         </Text>
       </View>
     );
