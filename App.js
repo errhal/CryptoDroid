@@ -39,7 +39,7 @@ const TabNav = TabNavigator({
   APIKeyManagerStack: {
     screen: APIKeyManagerStack,
     navigationOptions: {
-      title: 'Binance QR',
+      title: 'Binance API',
     },
   },
   MarketScreen: {
