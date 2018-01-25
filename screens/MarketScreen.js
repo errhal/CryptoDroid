@@ -9,6 +9,7 @@ export default class MarketScreen extends React.Component {
     this.state = {
       isLoading: true,
       currency: 'BTCUSDT',
+      interval: '1m',
       data: {
               dataSets: [{
                 values: [],
@@ -39,7 +40,7 @@ export default class MarketScreen extends React.Component {
   }
 
     refreshChart() {
-      return fetch('https://api.binance.com/api/v1/klines?symbol=' + this.state.currency + '&interval=1m')
+      return fetch('https://api.binance.com/api/v1/klines?symbol=' + this.state.currency + '&interval=' + this.state.interval)
         .then((response) => response.json())
         .then((responseJson) => {
           this.setState({
@@ -72,6 +73,11 @@ export default class MarketScreen extends React.Component {
 
     }
 
+    applyInterval(interval) {
+      this.setState({interval: interval}, () => this.refreshChart());
+
+    }
+
   render() {
     if(!this.state.isLoading) {
       return (
@@ -81,13 +87,20 @@ export default class MarketScreen extends React.Component {
             style={styles.currencyPicker}
             selectedValue={this.state.currency}
             onValueChange={(itemValue, itemIndex) => this.applyCurrency(itemValue)}>
-            <Picker.Item label="BTCUSDT" value="BTCUSDT" />
-            <Picker.Item label="ETHUSDT" value="ETHUSDT" />
+              <Picker.Item label="BTCUSDT" value="BTCUSDT" />
+              <Picker.Item label="ETHUSDT" value="ETHUSDT" />
           </Picker>
-            <CandleStickChart
-              style={styles.chart}
-              data={this.state.data}
-              />
+          <Picker
+            style={styles.currencyPicker}
+            selectedValue={this.state.interval}
+            onValueChange={(itemValue, itemIndex) => this.applyInterval(itemValue)}>
+              <Picker.Item label="1 minute" value="1m" />
+              <Picker.Item label="3 minutes" value="3m" />
+          </Picker>
+          <CandleStickChart
+            style={styles.chart}
+            data={this.state.data}
+          />
           </View>
 
       );
