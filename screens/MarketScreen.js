@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, processColor } from 'react-native';
+import { Text, View, StyleSheet, processColor, Picker } from 'react-native';
 import {CandleStickChart} from 'react-native-charts-wrapper';
 import update from 'immutability-helper';
 
@@ -8,6 +8,7 @@ export default class MarketScreen extends React.Component {
     super(props);
     this.state = {
       isLoading: true,
+      currency: 'BTCUSDT',
       data: {
               dataSets: [{
                 values: [],
@@ -34,7 +35,11 @@ export default class MarketScreen extends React.Component {
   };
 
   componentDidMount() {
-      return fetch('https://api.binance.com/api/v1/klines?symbol=BNBBTC&interval=1m')
+    this.refreshChart();
+  }
+
+    refreshChart() {
+      return fetch('https://api.binance.com/api/v1/klines?symbol=' + this.state.currency + '&interval=1m')
         .then((response) => response.json())
         .then((responseJson) => {
           this.setState({
@@ -62,15 +67,29 @@ export default class MarketScreen extends React.Component {
         });
     }
 
+    applyCurrency(currency) {
+      this.setState({currency: currency}, () => this.refreshChart());
+
+    }
+
   render() {
     if(!this.state.isLoading) {
       return (
-        <View style={styles.chartContainer}>
-        <CandleStickChart
-            style={styles.chart}
-            data={this.state.data}
-          />
-        </View>
+
+          <View style={styles.chartContainer}>
+          <Picker
+            style={styles.currencyPicker}
+            selectedValue={this.state.currency}
+            onValueChange={(itemValue, itemIndex) => this.applyCurrency(itemValue)}>
+            <Picker.Item label="BTCUSDT" value="BTCUSDT" />
+            <Picker.Item label="ETHUSDT" value="ETHUSDT" />
+          </Picker>
+            <CandleStickChart
+              style={styles.chart}
+              data={this.state.data}
+              />
+          </View>
+
       );
     }
     return (
@@ -81,10 +100,13 @@ export default class MarketScreen extends React.Component {
 
 const styles = StyleSheet.create({
   chartContainer: {
-    flex: 0.5,
+    flex: 1,
     backgroundColor: '#F5FCFF'
   },
   chart: {
-    flex: 1
-  }
+    flex: 0.5,
+  },
+  currencyPicker: {
+    flex: 0.1,
+  },
 });
