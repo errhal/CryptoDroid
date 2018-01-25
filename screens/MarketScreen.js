@@ -10,6 +10,7 @@ export default class MarketScreen extends React.Component {
       isLoading: true,
       currency: 'BTCUSDT',
       interval: '1m',
+      currencies: ['BTCUSDT', 'ETHUSDT'],
       data: {
               dataSets: [{
                 values: [],
@@ -36,7 +37,24 @@ export default class MarketScreen extends React.Component {
   };
 
   componentDidMount() {
+    this.downloadCurrencies();
     this.refreshChart();
+  }
+
+  downloadCurrencies() {
+    return fetch('https://api.binance.com/api/v1/exchangeInfo')
+      .then((response) => response.json())
+      .then((responseJson) => {
+        let currencies = responseJson.symbols.map(s => {
+          return s.symbol;
+        });
+
+        this.setState({currencies: currencies});
+
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   }
 
     refreshChart() {
@@ -80,15 +98,17 @@ export default class MarketScreen extends React.Component {
 
   render() {
     if(!this.state.isLoading) {
-      return (
+      let currencies = this.state.currencies.map((s, i) => {
+        return <Picker.Item key={s} value={s} label={s} />
+      });
 
+      return (
           <View style={styles.chartContainer}>
           <Picker
             style={styles.currencyPicker}
             selectedValue={this.state.currency}
             onValueChange={(itemValue, itemIndex) => this.applyCurrency(itemValue)}>
-              <Picker.Item label="BTCUSDT" value="BTCUSDT" />
-              <Picker.Item label="ETHUSDT" value="ETHUSDT" />
+              {currencies}
           </Picker>
           <Picker
             style={styles.currencyPicker}
@@ -96,6 +116,19 @@ export default class MarketScreen extends React.Component {
             onValueChange={(itemValue, itemIndex) => this.applyInterval(itemValue)}>
               <Picker.Item label="1 minute" value="1m" />
               <Picker.Item label="3 minutes" value="3m" />
+              <Picker.Item label="5 minutes" value="5m" />
+              <Picker.Item label="15 minutes" value="15m" />
+              <Picker.Item label="30 minutes" value="30m" />
+              <Picker.Item label="1 hour" value="1h" />
+              <Picker.Item label="2 hours" value="2h" />
+              <Picker.Item label="4 hours" value="4h" />
+              <Picker.Item label="6 hours" value="6h" />
+              <Picker.Item label="8 hours" value="8h" />
+              <Picker.Item label="12 hours" value="12h" />
+              <Picker.Item label="1 day" value="1d" />
+              <Picker.Item label="3 days" value="3d" />
+              <Picker.Item label="1 week" value="1w" />
+              <Picker.Item label="1 month" value="1M" />
           </Picker>
           <CandleStickChart
             style={styles.chart}
