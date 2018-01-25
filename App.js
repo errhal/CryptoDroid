@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, FlatList, Button } from 'react-native';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { APIKeyManagerScreen } from './screens/APIKeyManagerScreen.js';
 import MarketScreen from './screens/MarketScreen.js';
+import QRCodeScannerScreen from './screens/QRCodeScannerScreen.js';
 
 
 class ExchangeChooseScreen extends React.Component {
@@ -33,6 +34,10 @@ const APIKeyManagerStack = StackNavigator({
   APIKeyManagerScreen: {
     path: 'APIKeyManagerScreen',
     screen: APIKeyManagerScreen,
+  },
+  QRCodeScannerScreen: {
+    path: 'QRCodeScannerScreen',
+    screen: QRCodeScannerScreen,
   }
 });
 

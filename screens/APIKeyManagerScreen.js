@@ -33,6 +33,11 @@ export class APIKeyManagerScreen extends React.Component {
             title="Save"
             color="#841584"
           />
+          <Button
+            onPress={() => this.props.navigation.navigate('QRCodeScannerScreen')}
+            title="Scan QR code"
+            color="#841584"
+          />
           <Text>Your current API key: {this.state.API}</Text>
           <Text>{this.state.error}</Text>
         </View>
