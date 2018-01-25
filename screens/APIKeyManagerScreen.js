@@ -12,6 +12,10 @@ export class APIKeyManagerScreen extends React.Component {
     this.getAPI();
   }
 
+  static navigationOptions = {
+    header: null,
+  }
+
   render() {
 
       return (

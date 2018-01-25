@@ -12,6 +12,7 @@ class ExchangeChooseScreen extends React.Component {
 
   static navigationOptions = {
     tabBarLabel: 'Account',
+    header: null,
   };
 
   render() {
