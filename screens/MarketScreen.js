@@ -14,7 +14,7 @@ export default class MarketScreen extends React.Component {
       data: {
               dataSets: [{
                 values: [],
-                label: 'AAPL',
+                label: 'BTCUSDT',
                 config: {
                   highlightColor: processColor('darkgray'),
 
@@ -75,7 +75,7 @@ export default class MarketScreen extends React.Component {
                 values.push(value);
             }
             var updatedData = update(this.state.data, {
-              dataSets: {0: {values: {$set: values}}},
+              dataSets: {0: {values: {$set: values}, label: {$set: this.state.currency}}},
             });
 
             this.setState({data: updatedData});
@@ -133,6 +133,7 @@ export default class MarketScreen extends React.Component {
           <CandleStickChart
             style={styles.chart}
             data={this.state.data}
+            chartDescription={{text: 'Cryptocurrency Chart'}}
           />
           </View>
 
