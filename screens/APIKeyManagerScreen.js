@@ -19,26 +19,29 @@ export class APIKeyManagerScreen extends React.Component {
   render() {
 
       return (
-        <View>
+        <View style={{marginTop: 15, flex: 1}}>
           <Text>
             Type you API key for Binance:
           </Text>
           <TextInput
-            style={{height: 40}}
+            style={{height: 40, marginTop: 10}}
             placeholder="Type here your API key"
             onChangeText={(text) => this.setState({APItext: text})}
           />
-          <Button
-            onPress={() => this.saveAPI()}
-            title="Save"
-            color="#841584"
-          />
-          <Button
-            onPress={() => this.props.navigation.navigate('QRCodeScannerScreen')}
-            title="Scan QR code"
-            color="#841584"
-          />
-          <Text>Your current API key: {this.state.API}</Text>
+          <View style={{flexDirection: 'column'}}>
+            <Button
+              onPress={() => this.saveAPI()}
+              title="Save"
+              color="#841584"
+              style={{marginBottom: 15}}
+              />
+              <Button
+              onPress={() => this.props.navigation.navigate('QRCodeScannerScreen')}
+              title="Scan QR code"
+              color="#841584"
+              />
+          </View>
+          <Text style={{marginTop: 15}}>Your current API key: {this.state.API}</Text>
           <Text>{this.state.error}</Text>
         </View>
       );
