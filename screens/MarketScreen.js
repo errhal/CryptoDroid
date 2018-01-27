@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, StyleSheet, processColor, Picker } from 'react-native';
+import { Text, View, StyleSheet, processColor, Picker, TextInput, Button } from 'react-native';
 import {CandleStickChart} from 'react-native-charts-wrapper';
 import update from 'immutability-helper';
 
@@ -71,11 +71,17 @@ export default class MarketScreen extends React.Component {
                   shadowL: parseFloat(responseJson[i][3]),
                   open: parseFloat(responseJson[i][1]),
                   close: parseFloat(responseJson[i][4]),
+                  x: (new Date(responseJson[i][0])).getDate(),
                 };
                 values.push(value);
             }
             var updatedData = update(this.state.data, {
-              dataSets: {0: {values: {$set: values}, label: {$set: this.state.currency}}},
+              dataSets: {
+                0: {
+                  values: {$set: values},
+                  label: {$set: this.state.currency}
+                }
+              },
             });
 
             this.setState({data: updatedData});
@@ -135,7 +141,33 @@ export default class MarketScreen extends React.Component {
             data={this.state.data}
             chartDescription={{text: 'Cryptocurrency Chart'}}
           />
+
+          <View style={{flexDirection: 'row'}}>
+            <View style={{flexDirection: 'column', flex: 0.5}}>
+              <TextInput
+              style={{height: 40}}
+              placeholder="Price"
+              />
+              <Button
+              title="Buy"
+              color="green"
+              onPress={() => true}
+              />
+            </View>
+
+            <View style={{flexDirection: 'column', flex: 0.5}}>
+              <TextInput
+              style={{height: 40}}
+              placeholder="Price"
+              />
+              <Button
+              title="Sell"
+              color="red"
+              onPress={() => true}
+              />
+            </View>
           </View>
+        </View>
 
       );
     }
